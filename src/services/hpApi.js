@@ -10,10 +10,18 @@ async function fetchCharacters() {
         }
 
         const data = await response.json();
-        return data; // Return the fetched character data
+        const cleanedData = data
+            .filter((character) => character.image && character.name)
+            .map((character,index) => ({
+                id: index, 
+                name: character.name,
+                image: character.image,
+            }));
+        return cleanedData; // Return the fetched and cleaned character data
     } catch (error) {
         alert("Unable to fetch  data. Please try again.");
         console.error(error);
+        return []; // Return an empty array in case of error
     }
 }
 

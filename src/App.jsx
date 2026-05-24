@@ -8,6 +8,11 @@ import GameMessage from "./components/GameMessage";
 import CardGrid from "./components/CardGrid";
 
 function App() {
+  const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
+  const gameMessage = "Welcome to Hogwarts!"; // Placeholder game message
+  const [characters, setCharacters] = useState([]); // State to hold character data
+
   useEffect(() => {
     const getCharacters = async () => {
       const data = await fetchCharacters();
@@ -15,12 +20,7 @@ function App() {
     };
     getCharacters();
   }, []);
-
-  const [score, setScore] = useState(0);
-  const [bestScore, setBestScore] = useState(0);
-  const gameMessage = "Welcome to Hogwarts!"; // Placeholder game message
-  const [characters, setCharacters] = useState([]); // State to hold character data
-
+  
   // Dummy function to simulate score increase
   function increaseScore() {
     const newScore = score + 1;
