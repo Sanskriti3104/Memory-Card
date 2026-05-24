@@ -1,8 +1,8 @@
-function CharacterCard() {
+function CharacterCard(props) {
   return(
     <div className="character-card">
-      <img src="character-image.jpg" alt="Character Name" />
-      <p className="character-name">Character Name</p>
+      <img src="character-image.jpg" alt={props.name} />
+      <p className="character-name">{props.name}</p>
     </div>
   );
 }

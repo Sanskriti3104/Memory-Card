@@ -1,7 +1,7 @@
-function GameMessage() {
+function GameMessage(props) {
   return (
     <div className="game-message">
-      <p>Welcome to Hogwarts!</p>
+      <p>{props.message}</p>
     </div>
   );
 }
