@@ -10,6 +10,29 @@ function App() {
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
   const gameMessage = "Welcome to Hogwarts!"; // Placeholder game message
+  // Dummy static data
+  const characters = [
+    {
+      id: 1,
+      name: "Harry Potter"
+    },
+    {
+      id: 2,
+      name: "Hermione Granger"
+    },
+    {
+      id: 3,
+      name: "Ron Weasley"
+    },
+    {
+      id: 4,
+      name: "Draco Malfoy"
+    },
+    {
+      id: 5,
+      name: "Luna Lovegood"
+    }
+  ]
 
   // Dummy function to simulate score increase
   function increaseScore() {
@@ -27,7 +50,7 @@ function App() {
       <button onClick={increaseScore}>Increase Score</button>
       <DifficultySelector />
       <GameMessage message={gameMessage} />
-      <CardGrid />
+      <CardGrid characters={characters}/>
     </div>
   );
 }

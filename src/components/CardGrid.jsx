@@ -1,11 +1,13 @@
 import CharacterCard from "./CharacterCard";
 
-function CardGrid() {
+function CardGrid({characters}) {
   return (
     <div className="card-grid">
-      <CharacterCard name="Harry Potter" />
-      <CharacterCard name="Hermione Granger" />
-      <CharacterCard name="Ron Weasley" />
+      {characters.map((character) => (
+        <div key={character.id}>
+          <CharacterCard name={character.name} />
+        </div>
+      ))}
     </div>
   );
 }
