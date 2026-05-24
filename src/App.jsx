@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
+import fetchCharacters from "./services/hpApi";
 import Header from "./components/Header";
 import ScoreBoard from "./components/ScoreBoard";
 import DifficultySelector from "./components/DifficultySelector";
@@ -7,32 +8,18 @@ import GameMessage from "./components/GameMessage";
 import CardGrid from "./components/CardGrid";
 
 function App() {
+  useEffect(() => {
+    const getCharacters = async () => {
+      const data = await fetchCharacters();
+      setCharacters(data);
+    };
+    getCharacters();
+  }, []);
+
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
   const gameMessage = "Welcome to Hogwarts!"; // Placeholder game message
-  // Dummy static data
-  const characters = [
-    {
-      id: 1,
-      name: "Harry Potter"
-    },
-    {
-      id: 2,
-      name: "Hermione Granger"
-    },
-    {
-      id: 3,
-      name: "Ron Weasley"
-    },
-    {
-      id: 4,
-      name: "Draco Malfoy"
-    },
-    {
-      id: 5,
-      name: "Luna Lovegood"
-    }
-  ]
+  const [characters, setCharacters] = useState([]); // State to hold character data
 
   // Dummy function to simulate score increase
   function increaseScore() {
