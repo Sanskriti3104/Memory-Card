@@ -1,5 +1,10 @@
 function CharacterCard() {
-  return <div>Character Card</div>;
+  return(
+    <div className="character-card">
+      <img src="character-image.jpg" alt="Character Name" />
+      <p className="character-name">Character Name</p>
+    </div>
+  );
 }
 
 export default CharacterCard;

@@ -2,7 +2,9 @@ import CharacterCard from "./CharacterCard";
 
 function CardGrid() {
   return (
-    <div>Card Grid
+    <div className="card-grid">
+      { <CharacterCard /> }
+      { <CharacterCard /> }
       { <CharacterCard /> }
     </div>
   );
