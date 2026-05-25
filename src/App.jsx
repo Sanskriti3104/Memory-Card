@@ -51,6 +51,8 @@ function App() {
 
   function handleCardClick(id) {
     console.log(id);
+    const shuffled = [...displayedCharacters].sort(() => 0.5 - Math.random());
+    setDisplayedCharacters(shuffled);
   }
 
   // Dummy function to simulate score increase
