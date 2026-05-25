@@ -66,8 +66,8 @@ function App() {
     increaseScore();
     const updatedCharacters = displayedCharacters.map(char => {
       if (char.id === id) {
-        return { 
-          ...char, clicked: true 
+        return {
+          ...char, clicked: true
         };
       }
       return char;
@@ -77,11 +77,13 @@ function App() {
   }
 
   function increaseScore() {
-    const newScore = score + 1;
-    setScore(newScore);
-    if (newScore > bestScore) {
-      setBestScore(newScore);
-    }
+    setScore((prevScore) => {
+      const newScore = prevScore + 1;
+      if (newScore > bestScore) {
+        setBestScore(newScore);
+      }
+      return newScore;
+    });
   }
 
   return (
