@@ -49,25 +49,42 @@ function App() {
     setDisplayedCharacters(selected);
   }
 
+  function resetGame() {
+    setScore(0);
+
+    const updatedAllCharacters =
+      allCharacters.map((char) => ({
+        ...char,
+        clicked: false,
+      }));
+
+    setAllCharacters(
+      updatedAllCharacters
+    );
+
+    getRandomCharacters(
+      displayedCharacters.length,
+      updatedAllCharacters
+    );
+  }
+
   function handleCardClick(id) {
-    let clickedCharacter = displayedCharacters.find(char => char.id === id);
+    const clickedCharacter = displayedCharacters.find(char => char.id === id);
 
     if (clickedCharacter.clicked) {
       alert("You already clicked this character! Game Over.");
-      setScore(0);
-
-      const updatedAllCharacters = allCharacters.map(char => ({
-        ...char, clicked: false
-      }));
-      setAllCharacters(updatedAllCharacters);
-      getRandomCharacters(displayedCharacters.length, updatedAllCharacters); // Reset the displayed characters
+      resetGame();
       return;
     }
+
     const nextScore = score + 1;
     increaseScore();
-    if ( nextScore === displayedCharacters.length) {
+    if (nextScore === displayedCharacters.length) {
       alert("Congratulations! You won!");
+      resetGame();
+      return;
     }
+    
     const updatedCharacters = displayedCharacters.map(char => {
       if (char.id === id) {
         return {
