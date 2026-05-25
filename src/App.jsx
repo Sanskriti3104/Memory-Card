@@ -9,11 +9,18 @@ import CardGrid from "./components/CardGrid";
 function App() {
   const [difficulty, setDifficulty] = useState("easy");
   const [score, setScore] = useState(0);
-  const [bestScore, setBestScore] = useState(0);
+  const [bestScore, setBestScore] = useState(() => {
+    return Number(localStorage.getItem("bestScore")) || 0;
+  });
   const [gameMessage, setGameMessage] = useState("Welcome to the Harry Potter Memory Game!");
   const [showModal, setShowModal] = useState(false);
   const [allCharacters, setAllCharacters] = useState([]); // State to hold character data
   const [displayedCharacters, setDisplayedCharacters] = useState([]); // State to hold currently displayed characters
+
+  //Persist best score to localStorage
+  useEffect(() => {
+    localStorage.setItem("bestScore", bestScore);
+  }, [bestScore]);
 
   //fetch characters on initial load
   useEffect(() => {
@@ -85,7 +92,7 @@ function App() {
 
   //Card Click Logic
   function handleCardClick(id) {
-    if(showModal) return; // Prevent clicks while modal is shown
+    if (showModal) return; // Prevent clicks while modal is shown
     const clickedCharacter = displayedCharacters.find(char => char.id === id);
 
     //Lose Condition
