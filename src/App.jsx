@@ -4,17 +4,18 @@ import fetchCharacters from "./services/hpApi";
 import Header from "./components/Header";
 import ScoreBoard from "./components/ScoreBoard";
 import DifficultySelector from "./components/DifficultySelector";
-import GameMessage from "./components/GameMessage";
 import CardGrid from "./components/CardGrid";
 
 function App() {
   const [difficulty, setDifficulty] = useState("easy");
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
-  const gameMessage = "Welcome to Hogwarts!"; // Placeholder game message
+  const [gameMessage, setGameMessage] = useState("Welcome to the Harry Potter Memory Game!");
+  const [showModal, setShowModal] = useState(false);
   const [allCharacters, setAllCharacters] = useState([]); // State to hold character data
   const [displayedCharacters, setDisplayedCharacters] = useState([]); // State to hold currently displayed characters
 
+  //fetch characters on initial load
   useEffect(() => {
     const getCharacters = async () => {
       const data = await fetchCharacters();
@@ -23,6 +24,7 @@ function App() {
     getCharacters();
   }, []);
 
+  //handle difficulty change
   useEffect(() => {
     if (allCharacters.length === 0) return;
 
@@ -40,6 +42,7 @@ function App() {
       default:
         numberOfCards = 6;
     }
+    setScore(0);
     getRandomCharacters(numberOfCards, allCharacters);
   }, [difficulty, allCharacters]);
 
@@ -49,6 +52,7 @@ function App() {
     setDisplayedCharacters(selected);
   }
 
+  //Reset game
   function resetGame() {
     setScore(0);
 
@@ -68,23 +72,38 @@ function App() {
     );
   }
 
+  //Modal Controller
+  function showGameModal(message, callback) {
+    setGameMessage(message);
+    setShowModal(true);
+
+    setTimeout(() => {
+      setShowModal(false);
+      callback();
+    }, 2000);
+  }
+
+  //Card Click Logic
   function handleCardClick(id) {
+    if(showModal) return; // Prevent clicks while modal is shown
     const clickedCharacter = displayedCharacters.find(char => char.id === id);
 
+    //Lose Condition
     if (clickedCharacter.clicked) {
-      alert("You already clicked this character! Game Over.");
-      resetGame();
+      showGameModal("You already clicked this character! Game Over.", resetGame);
       return;
     }
 
     const nextScore = score + 1;
     increaseScore();
+
+    //Win Condition
     if (nextScore === displayedCharacters.length) {
-      alert("Congratulations! You won!");
-      resetGame();
+      showGameModal("Congratulations! You won!", resetGame);
       return;
     }
-    
+
+    //Mark clicked
     const updatedCharacters = displayedCharacters.map(char => {
       if (char.id === id) {
         return {
@@ -97,6 +116,7 @@ function App() {
     setDisplayedCharacters(shuffled);
   }
 
+  //Score Update
   function increaseScore() {
     setScore((prevScore) => {
       const newScore = prevScore + 1;
@@ -109,10 +129,14 @@ function App() {
 
   return (
     <div className="App">
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-box">{gameMessage}</div>
+        </div>
+      )}
       <Header />
       <ScoreBoard score={score} bestScore={bestScore} />
       <DifficultySelector difficulty={difficulty} setDifficulty={setDifficulty} />
-      <GameMessage message={gameMessage} />
       <CardGrid characters={displayedCharacters} handleCardClick={handleCardClick} />
     </div>
   );
