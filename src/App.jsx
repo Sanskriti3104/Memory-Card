@@ -49,6 +49,10 @@ function App() {
     setDisplayedCharacters(selected);
   }
 
+  function handleCardClick(id) {
+    console.log(id);
+  }
+
   // Dummy function to simulate score increase
   function increaseScore() {
     const newScore = score + 1;
@@ -65,7 +69,7 @@ function App() {
       <button onClick={increaseScore}>Increase Score</button>
       <DifficultySelector difficulty={difficulty} setDifficulty={setDifficulty} />
       <GameMessage message={gameMessage} />
-      <CardGrid characters={displayedCharacters} />
+      <CardGrid characters={displayedCharacters} handleCardClick={handleCardClick} />
     </div>
   );
 }
