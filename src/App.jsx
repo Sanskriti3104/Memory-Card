@@ -63,7 +63,11 @@ function App() {
       getRandomCharacters(displayedCharacters.length, updatedAllCharacters); // Reset the displayed characters
       return;
     }
+    const nextScore = score + 1;
     increaseScore();
+    if ( nextScore === displayedCharacters.length) {
+      alert("Congratulations! You won!");
+    }
     const updatedCharacters = displayedCharacters.map(char => {
       if (char.id === id) {
         return {
