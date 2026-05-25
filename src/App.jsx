@@ -8,19 +8,47 @@ import GameMessage from "./components/GameMessage";
 import CardGrid from "./components/CardGrid";
 
 function App() {
+  const [difficulty, setDifficulty] = useState("easy");
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
   const gameMessage = "Welcome to Hogwarts!"; // Placeholder game message
-  const [characters, setCharacters] = useState([]); // State to hold character data
+  const [allCharacters, setAllCharacters] = useState([]); // State to hold character data
+  const [displayedCharacters, setDisplayedCharacters] = useState([]); // State to hold currently displayed characters
 
   useEffect(() => {
     const getCharacters = async () => {
       const data = await fetchCharacters();
-      setCharacters(data);
+      setAllCharacters(data);
     };
     getCharacters();
   }, []);
-  
+
+  useEffect(() => {
+    if (allCharacters.length === 0) return;
+
+    let numberOfCards;
+    switch (difficulty) {
+      case "easy":
+        numberOfCards = 6;
+        break;
+      case "medium":
+        numberOfCards = 8;
+        break;
+      case "hard":
+        numberOfCards = 10;
+        break;
+      default:
+        numberOfCards = 6;
+    }
+    getRandomCharacters(numberOfCards);
+  }, [difficulty, allCharacters]);
+
+  function getRandomCharacters(numberOfCards) {
+    const shuffled = [...allCharacters].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, numberOfCards);
+    setDisplayedCharacters(selected);
+  }
+
   // Dummy function to simulate score increase
   function increaseScore() {
     const newScore = score + 1;
@@ -35,9 +63,9 @@ function App() {
       <Header />
       <ScoreBoard score={score} bestScore={bestScore} />
       <button onClick={increaseScore}>Increase Score</button>
-      <DifficultySelector />
+      <DifficultySelector difficulty={difficulty} setDifficulty={setDifficulty} />
       <GameMessage message={gameMessage} />
-      <CardGrid characters={characters}/>
+      <CardGrid characters={displayedCharacters} />
     </div>
   );
 }
