@@ -40,22 +40,42 @@ function App() {
       default:
         numberOfCards = 6;
     }
-    getRandomCharacters(numberOfCards);
+    getRandomCharacters(numberOfCards, allCharacters);
   }, [difficulty, allCharacters]);
 
-  function getRandomCharacters(numberOfCards) {
-    const shuffled = [...allCharacters].sort(() => 0.5 - Math.random());
+  function getRandomCharacters(numberOfCards, characterList) {
+    const shuffled = [...characterList].sort(() => 0.5 - Math.random());
     const selected = shuffled.slice(0, numberOfCards);
     setDisplayedCharacters(selected);
   }
 
   function handleCardClick(id) {
-    console.log(id);
-    const shuffled = [...displayedCharacters].sort(() => 0.5 - Math.random());
+    let clickedCharacter = displayedCharacters.find(char => char.id === id);
+
+    if (clickedCharacter.clicked) {
+      alert("You already clicked this character! Game Over.");
+      setScore(0);
+
+      const updatedAllCharacters = allCharacters.map(char => ({
+        ...char, clicked: false
+      }));
+      setAllCharacters(updatedAllCharacters);
+      getRandomCharacters(displayedCharacters.length, updatedAllCharacters); // Reset the displayed characters
+      return;
+    }
+    increaseScore();
+    const updatedCharacters = displayedCharacters.map(char => {
+      if (char.id === id) {
+        return { 
+          ...char, clicked: true 
+        };
+      }
+      return char;
+    });
+    const shuffled = [...updatedCharacters].sort(() => 0.5 - Math.random());
     setDisplayedCharacters(shuffled);
   }
 
-  // Dummy function to simulate score increase
   function increaseScore() {
     const newScore = score + 1;
     setScore(newScore);
@@ -68,7 +88,6 @@ function App() {
     <div className="App">
       <Header />
       <ScoreBoard score={score} bestScore={bestScore} />
-      <button onClick={increaseScore}>Increase Score</button>
       <DifficultySelector difficulty={difficulty} setDifficulty={setDifficulty} />
       <GameMessage message={gameMessage} />
       <CardGrid characters={displayedCharacters} handleCardClick={handleCardClick} />

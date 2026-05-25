@@ -16,6 +16,7 @@ async function fetchCharacters() {
                 id: index, 
                 name: character.name,
                 image: character.image,
+                clicked: false,
             }));
         return cleanedData; // Return the fetched and cleaned character data
     } catch (error) {
