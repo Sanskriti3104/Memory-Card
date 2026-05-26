@@ -97,7 +97,7 @@ function App() {
 
     //Lose Condition
     if (clickedCharacter.clicked) {
-      showGameModal("You already clicked this character! Game Over.", resetGame);
+      showGameModal("Oops! You already picked this wizard.", resetGame);
       return;
     }
 
@@ -106,7 +106,7 @@ function App() {
 
     //Win Condition
     if (nextScore === displayedCharacters.length) {
-      showGameModal("Congratulations! You won!", resetGame);
+      showGameModal("✨ Mischief Managed!", resetGame);
       return;
     }
 
