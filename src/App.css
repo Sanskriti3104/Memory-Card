@@ -129,6 +129,20 @@ p {
   transform: translateY(-2px);
 }
 
+/* Active Difficulty Button */
+.difficulty-option.active {
+  color: var(--gold);
+  background: rgba(212, 175, 55, 0.12);
+
+  border: 1px solid rgba(212, 175, 55, 0.4);
+
+  box-shadow:
+    0 0 12px rgba(212, 175, 55, 0.15),
+    inset 0 0 8px rgba(212, 175, 55, 0.08);
+
+  transform: translateY(-1px);
+}
+
 /* Card Grid */
 .card-grid {
   display: grid;
@@ -137,25 +151,23 @@ p {
   margin: 0 auto;
   padding: 4px;
 
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
   justify-content: center;
 }
 
 /* Easy → 3 up 3 down */
 .card-grid.easy {
   max-width: 520px;
-  grid-template-columns: repeat(3, 155px);
 }
 
 /* Medium → 4 up 4 down */
 .card-grid.medium {
   max-width: 680px;
-  grid-template-columns: repeat(4, 155px);
 }
 
 /* Hard → 5 up 5 down */
 .card-grid.hard {
   max-width: 840px;
-  grid-template-columns: repeat(5, 155px);
 }
 
 /* Character Card */
@@ -236,4 +248,36 @@ p {
   box-shadow: var(--glow), var(--shadow);
   border: 1px solid rgba(212, 175, 55, 0.3);
   animation: popIn var(--smooth);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .score-board {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    padding: 15px;
+  }
 }
