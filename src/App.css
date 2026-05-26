@@ -208,3 +208,32 @@ p {
 
   background: rgba(0, 0, 0, 0.28);
 }
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn var(--smooth);
+  z-index: 999;
+}
+
+/* modal box */
+.modal-box {
+  background: var(--glass-strong);
+  padding: 30px 40px;
+  border-radius: 16px;
+  color: var(--gold);
+  font-size: 1.2rem;
+  text-align: center;
+  box-shadow: var(--glow), var(--shadow);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  animation: popIn var(--smooth);
+}
