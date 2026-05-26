@@ -144,7 +144,7 @@ function App() {
       <Header />
       <ScoreBoard score={score} bestScore={bestScore} />
       <DifficultySelector difficulty={difficulty} setDifficulty={setDifficulty} />
-      <CardGrid characters={displayedCharacters} handleCardClick={handleCardClick} />
+      <CardGrid characters={displayedCharacters} handleCardClick={handleCardClick} difficulty={difficulty} />
     </div>
   );
 }
