@@ -7,6 +7,7 @@ import DifficultySelector from "./components/DifficultySelector";
 import CardGrid from "./components/CardGrid";
 
 function App() {
+  const [loading, setLoading] = useState(true);
   const [difficulty, setDifficulty] = useState("easy");
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(() => {
@@ -27,9 +28,10 @@ function App() {
     const getCharacters = async () => {
       const data = await fetchCharacters();
       setAllCharacters(data);
+      setLoading(false);
     };
     getCharacters();
-  }, []);
+  }, [difficulty]);
 
   //handle difficulty change
   useEffect(() => {
@@ -144,7 +146,18 @@ function App() {
       <Header />
       <ScoreBoard score={score} bestScore={bestScore} />
       <DifficultySelector difficulty={difficulty} setDifficulty={setDifficulty} />
-      <CardGrid characters={displayedCharacters} handleCardClick={handleCardClick} difficulty={difficulty} />
+      {loading ? (
+        <div className="loader-container">
+          <div className="magic-loader"></div>
+          <p>Summoning Wizards...</p>
+        </div>
+      ) : (
+        <CardGrid
+          characters={displayedCharacters} 
+          handleCardClick={handleCardClick} 
+          difficulty={difficulty}
+        />
+      )}
     </div>
   );
 }
